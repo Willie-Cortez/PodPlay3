@@ -10,9 +10,10 @@ import com.bumptech.glide.Glide
 import com.cortez.willie.podplay3.databinding.SearchItemBinding
 import com.cortez.willie.podplay3.viewmodel.SearchViewModel.PodcastSummaryViewData
 
-class PodcastListAdapter(private var podcastSummaryViewList: List<PodcastSummaryViewData>?,
-                         private val podcastListAdapterListener: PodcastListAdapterListener,
-                         private val parentActivity: Activity
+class PodcastListAdapter(
+    private var podcastSummaryViewList: List<PodcastSummaryViewData>?,
+    private val podcastListAdapterListener: PodcastListAdapterListener,
+    private val parentActivity: Activity
 ) :
     RecyclerView.Adapter<PodcastListAdapter.ViewHolder>() {
 
@@ -20,8 +21,10 @@ class PodcastListAdapter(private var podcastSummaryViewList: List<PodcastSummary
         fun onShowDetails(podcastSummaryViewData: PodcastSummaryViewData)
     }
 
-    inner class ViewHolder(databinding: SearchItemBinding,
-                           private val podcastListAdapterListener: PodcastListAdapterListener) :
+    inner class ViewHolder(
+        databinding: SearchItemBinding,
+        private val podcastListAdapterListener: PodcastListAdapterListener
+    ) :
         RecyclerView.ViewHolder(databinding.root) {
         var podcastSummaryViewData: PodcastSummaryViewData? = null
         val nameTextView: TextView = databinding.podcastNameTextView
@@ -43,8 +46,10 @@ class PodcastListAdapter(private var podcastSummaryViewList: List<PodcastSummary
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PodcastListAdapter.ViewHolder {
-        return ViewHolder(SearchItemBinding.inflate(LayoutInflater.from(parent.context), parent, false),
-            podcastListAdapterListener)
+        return ViewHolder(
+            SearchItemBinding.inflate(LayoutInflater.from(parent.context), parent, false),
+            podcastListAdapterListener
+        )
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {

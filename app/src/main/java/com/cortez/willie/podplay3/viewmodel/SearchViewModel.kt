@@ -14,16 +14,19 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
         var name: String? = "",
         var lastUpdated: String? = "",
         var imageUrl: String? = "",
-        var feedUrl: String? = "")
+        var feedUrl: String? = ""
+    )
 
     private fun itunesPodcastToPodcastSummaryView(
-        itunesPodcast: PodcastResponse.ItunesPodcast):
+        itunesPodcast: PodcastResponse.ItunesPodcast
+    ):
             PodcastSummaryViewData {
         return PodcastSummaryViewData(
             itunesPodcast.collectionCensoredName,
             DateUtils.jsonDateToShortDate(itunesPodcast.releaseDate),
             itunesPodcast.artworkUrl30,
-            itunesPodcast.feedUrl)
+            itunesPodcast.feedUrl
+        )
     }
 
     suspend fun searchPodcasts(term: String): List<PodcastSummaryViewData> {
