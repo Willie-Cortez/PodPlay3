@@ -10,10 +10,27 @@ import com.cortez.willie.podplay3.util.HtmlUtils
 import com.cortez.willie.podplay3.viewmodel.PodcastViewModel
 
 class EpisodeListAdapter(
-    private var episodeViewList: List<PodcastViewModel.EpisodeViewData>?
-) : RecyclerView.Adapter<EpisodeListAdapter.ViewHolder>() {
+    private var episodeViewList: List<PodcastViewModel.EpisodeViewData>?,
+    private val episodeListAdapterListener: EpisodeListAdapterListener) :
+    RecyclerView.Adapter<EpisodeListAdapter.ViewHolder>() {
 
-    inner class ViewHolder(databinding: EpisodeItemBinding) : RecyclerView.ViewHolder(databinding.root) {
+    interface EpisodeListAdapterListener {
+        fun onSelectedEpisode(episodeViewData: PodcastViewModel.EpisodeViewData)
+    }
+
+    inner class ViewHolder(
+        databinding: EpisodeItemBinding,
+        val episodeListAdapterListener: EpisodeListAdapterListener
+    ) : RecyclerView.ViewHolder(databinding.root) {
+
+        init {
+            databinding.root.setOnClickListener {
+                episodeViewData?.let {
+                    episodeListAdapterListener.onSelectedEpisode(it)
+                }
+            }
+        }
+
         var episodeViewData: PodcastViewModel.EpisodeViewData? = null
         val titleTextView: TextView = databinding.titleView
         val descTextView: TextView = databinding.descView
@@ -22,7 +39,7 @@ class EpisodeListAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EpisodeListAdapter.ViewHolder {
-        return ViewHolder(EpisodeItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        return ViewHolder(EpisodeItemBinding.inflate(LayoutInflater.from(parent.context), parent, false), episodeListAdapterListener)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -31,7 +48,7 @@ class EpisodeListAdapter(
 
         holder.episodeViewData = episodeView
         holder.titleTextView.text = episodeView.title
-        holder.descTextView.text = HtmlUtils.htmlToSpannable(episodeView.description ?: "")
+        holder.descTextView.text =  HtmlUtils.htmlToSpannable(episodeView.description ?: "")
         holder.durationTextView.text = episodeView.duration
         holder.releaseDateTextView.text = episodeView.releaseDate?.let {
             DateUtils.dateToShortDate(it)
