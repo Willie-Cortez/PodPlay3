@@ -24,8 +24,7 @@ object DateUtils {
 
     fun dateToShortDate(date: Date): String {
         val outputFormat = DateFormat.getDateInstance(
-            DateFormat.SHORT, Locale.getDefault()
-        )
+            DateFormat.SHORT, Locale.getDefault())
         return outputFormat.format(date)
     }
 

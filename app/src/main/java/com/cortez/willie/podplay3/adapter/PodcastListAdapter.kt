@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.cortez.willie.podplay3.databinding.SearchItemBinding
+import com.cortez.willie.podplay3.viewmodel.PodcastViewModel
 import com.cortez.willie.podplay3.viewmodel.SearchViewModel.PodcastSummaryViewData
 
 class PodcastListAdapter(
@@ -19,6 +20,7 @@ class PodcastListAdapter(
 
     interface PodcastListAdapterListener {
         fun onShowDetails(podcastSummaryViewData: PodcastSummaryViewData)
+        fun onShowEpisodePlayer(episodeViewData: PodcastViewModel.EpisodeViewData)
     }
 
     inner class ViewHolder(

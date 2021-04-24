@@ -18,8 +18,9 @@ class PodcastViewModel(application: Application) : AndroidViewModel(application)
     private val _podcastLiveData = MutableLiveData<PodcastViewData?>()
     val podcastLiveData: LiveData<PodcastViewData?> = _podcastLiveData
     var livePodcastSummaryData: LiveData<List<PodcastSummaryViewData>>? = null
+    var activeEpisodeViewData: EpisodeViewData? = null
 
-    val podcastDao : PodcastDao = PodPlayDatabase
+    val podcastDao: PodcastDao = PodPlayDatabase
         .getInstance(application, viewModelScope)
         .podcastDao()
 
@@ -99,7 +100,8 @@ class PodcastViewModel(application: Application) : AndroidViewModel(application)
 
     private fun episodesToEpisodesView(episodes: List<Episode>): List<EpisodeViewData> {
         return episodes.map {
-            EpisodeViewData(it.guid, it.title, it.description, it.mediaUrl, it.releaseDate, it.duration)
+            val isVideo = it.mimeType.startsWith("video")
+            EpisodeViewData(it.guid, it.title, it.description, it.mediaUrl, it.releaseDate, it.duration, isVideo)
         }
     }
 
@@ -110,11 +112,18 @@ class PodcastViewModel(application: Application) : AndroidViewModel(application)
         }
     }
 
-    data class PodcastViewData(var subscribed: Boolean = false, var feedTitle: String? = "",
-                               var feedUrl: String? = "", var feedDesc: String? = "",
-                               var imageUrl: String? = "", var episodes: List<EpisodeViewData>)
+    data class PodcastViewData(var subscribed: Boolean = false,
+                               var feedTitle: String? = "",
+                               var feedUrl: String? = "",
+                               var feedDesc: String? = "",
+                               var imageUrl: String? = "",
+                               var episodes: List<EpisodeViewData>)
 
-    data class EpisodeViewData(var guid: String? = "", var title: String? = "",
-                               var description: String? = "", var mediaUrl: String? = "",
-                               var releaseDate: Date? = null, var duration: String? = "")
+    data class EpisodeViewData(var guid: String? = "",
+                               var title: String? = "",
+                               var description: String? = "",
+                               var mediaUrl: String? = "",
+                               var releaseDate: Date? = null,
+                               var duration: String? = "",
+                               var isVideo: Boolean = false)
 }
